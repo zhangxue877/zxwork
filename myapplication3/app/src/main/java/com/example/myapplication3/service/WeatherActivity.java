@@ -22,6 +22,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
+import com.example.myapplication3.MainActivity;
+import com.example.myapplication3.MyIntentService;
+import com.example.myapplication3.NewActivity;
 import com.example.myapplication3.R;
 import com.example.myapplication3.gson.Forecas;
 import com.example.myapplication3.gson.Weather;
@@ -34,7 +37,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class WeatherActivity extends AppCompatActivity {
+public class WeatherActivity extends AppCompatActivity implements View.OnClickListener {
     private ScrollView weatherLayout;
 
     private TextView titleCity;
@@ -64,7 +67,9 @@ public class WeatherActivity extends AppCompatActivity {
     private ImageView bingPicImg;
 
     private Button navButton;
-
+    private Button createButton; // 创建按钮
+    private TextView show2;
+    private Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +81,23 @@ public class WeatherActivity extends AppCompatActivity {
         setContentView(R.layout.activity_weather);
         initView();
 
+        // 启动服务播放背景音乐
+        intent = new Intent(WeatherActivity.this, MyIntentService.class);
+        String action = MyIntentService.ACTION_MUSIC;
+        // 设置action
+        intent.setAction(action);
+        startService(intent);
+        createButton = findViewById(R.id.createButton);
+        createButton.setOnClickListener(this);
+
+        Intent intent =getIntent();
+        String editTextValue =intent.getStringExtra("editTextValue");
+
+
+        show2=(TextView) findViewById(R.id.show2);
+        //通过“editTextValue”关键字进行添加
+        show2.setText(intent.getStringExtra("editTextValue"));
+/*-------------------------------------------*/
         //定义缓存对象
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
         String weatherString = prefs.getString("weather",null);
@@ -245,5 +267,20 @@ public class WeatherActivity extends AppCompatActivity {
         carWashText = (TextView) findViewById(R.id.car_wash_text);
         sportText = (TextView)findViewById(R.id.sport_text);
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(WeatherActivity.this, NewActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (intent != null){
+            // 对于intentService，这一步可能是多余的
+            stopService(intent);
+        }
     }
 }

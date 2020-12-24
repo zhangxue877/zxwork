@@ -13,13 +13,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
+        <service
+            android:name=".MyIntentService"
+            android:exported="false"></service>
         <service
             android:name=".service.AutoUpdateService"
             android:enabled="true"
             android:exported="true" />
 
         <activity android:name=".service.WeatherActivity" />
+        <activity android:name=".NewActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,6 +30,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".MyIntentService"
+            android:exported="false" >
+        <!--    <intent-filter>
+                <action android:name="com.angel.Android.MUSIC" />
+
+                <category android:name="android.intent.category.default" />
+            </intent-filter>-->
+        </service>
     </application>
 
 </manifest>

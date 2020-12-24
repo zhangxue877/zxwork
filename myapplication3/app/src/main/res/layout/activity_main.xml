@@ -29,4 +29,6 @@
         android:name = "com.example.myapplication3.service.ChooseAreaFragment" />
 
     </FrameLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
